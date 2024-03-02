@@ -29,9 +29,12 @@ jobs:
       with:
         go-version: ${{ matrix.go-version }}
 
+    - name: Set GOARCH
+      run: go env -w GOARCH=${{ matrix.goarch }}
+
     - name: Build
       run: |
-        GOOS=${{ matrix.os }} GOARCH=${{ matrix.goarch }} go build -v -o ./bin/go-${{ matrix.platform }} ./...
+        GOOS=${{ matrix.os }} go build -v -o ./bin/go-${{ matrix.platform }} ./...
         zip -r ./bin/go-${{ matrix.platform }}.zip ./bin/go-${{ matrix.platform }}
     - name: Test
       run: go test -v ./...
