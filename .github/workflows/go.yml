@@ -28,14 +28,12 @@ jobs:
       uses: actions/setup-go@v4
       with:
         go-version: ${{ matrix.go-version }}
-
-    - name: Set GOARCH
-      run: go env -w GOARCH=${{ matrix.goarch }}
-
-    - name: Build
+    - name: Build for amd64
       run: |
-        GOOS=${{ matrix.os }} go build -v -o ./bin/go-${{ matrix.platform }} ./...
-        zip -r ./bin/go-${{ matrix.platform }}.zip ./bin/go-${{ matrix.platform }}
+        GOARCH=amd64 go build -v -o ./bin/go-amd64 ./...
+    - name: Build for arm64
+      run: |
+        GOARCH=arm64 go build -v -o ./bin/go-arm64 ./...
     - name: Test
       run: go test -v ./...
     - name: Upload artifacts
